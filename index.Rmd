@@ -1,0 +1,58 @@
+---
+title: "Plotly example"
+author: "Bruno Ascenso"
+date: "November 16, 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(plotly)
+library(gapminder)
+data(gapminder)
+```
+
+## Overview
+
+This presentation week 2 assignment of the course Developing Data Products on Coursera.
+
+The instructions were:  
+"*Create a web page presentation using R Markdown that features a plot created with Plotly*".  
+
+So I decided to look in the plotly website for some advanced examples and learn one of them to use in this assignment.
+
+## Code used
+
+This is the code used to create the plot:
+```{r code, echo=TRUE, results = FALSE, eval=FALSE}
+p <- ggplot(gapminder, aes(gdpPercap, lifeExp, color = continent)) +
+    geom_point(aes(size = pop, frame = year, ids = country)) +
+    labs(x = "GDP per capita", y = "Life Expectancy") +
+    scale_x_log10()
+
+ggplotly(p) %>% 
+    animation_opts(1000, easing = "elastic", redraw = FALSE) %>% 
+    animation_button(x = 1, xanchor = "right", 
+                     y = 0, yanchor = "bottom") %>%
+    animation_slider(currentvalue = 
+                list(prefix = "YEAR ", font = list(color="red")))
+
+```
+
+## Plot
+And this is the plot. Press the **Play** button or move the slider.
+
+```{r plot, echo = FALSE, results = TRUE}
+suppressWarnings(p <- ggplot(gapminder, aes(gdpPercap, lifeExp, color = continent)) +
+    geom_point(aes(size = pop, frame = year, ids = country)) +
+    labs(x = "GDP per capita", y = "Life Expectancy") +
+    scale_x_log10())
+
+ggplotly(p) %>% 
+    animation_opts(1000, easing = "elastic", redraw = FALSE) %>% 
+    animation_button(x = 1, xanchor = "right", y = 0, yanchor = "bottom") %>%
+    animation_slider(currentvalue = list(prefix = "YEAR ", font = list(color="red")))
+
+```
+
+## Thanks for reviewing
